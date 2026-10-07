@@ -4,7 +4,101 @@
 
 ---
 
+这是我对 [Fawn](https://app.hackthebox.com/machines/Fawn) 实验的write-up。
 
+# 概述
+
+这个实验是关于 FTP——文件传输协议的。它包含 11 个问题，我们需要获取 flag.txt。
+
+> 文件传输协议（FTP）是一种标准通信协议，用于通过计算机网络将计算机文件从服务器传输到客户端。
+
+# 问题与答案
+
+### 1. 三字母缩写 FTP 代表什么？
+
+⎯ File Transfer Protocol（文件传输协议）
+
+### 2. FTP 服务通常监听哪个端口？
+
+⎯ 21 端口
+
+### 3. FTP 以明文发送数据，没有任何加密。后来设计的一个协议用于提供与 FTP 类似的功能但更安全，作为 SSH 协议的扩展，它使用什么缩写？
+
+⎯ SFTP。有两种类型的安全 FTP 服务器：SFTP 和 FTPS。为了进行保护用户名和密码并加密内容的安全传输，FTP 通常用 SSL/TLS 保护（FTPS）或替换为 SSH 文件传输协议（SFTP）
+
+### 4. 我们可以使用什么命令发送 ICMP 回显请求来测试与目标的连接？
+
+⎯ ``ping``
+
+### 5. 根据你的扫描，目标上运行的 FTP 是什么版本？
+
+⎯ ``vsftpd 3.0.3``。为了找出来，我用 Nmap 工具扫描了机器IP：
+
+> Nmap（Network Mapper）是一款免费、开源的网络扫描工具，用于主机发现、端口扫描、服务检测、操作系统指纹识别和安全审计。
+
+```
+sudo nmap -sC -sV -O -p 21 -Pn machine_ip
+```
+
+<img width="1801" height="630" alt="image" src="https://github.com/user-attachments/assets/ed3b4a73-7177-483d-bf21-d1c764e8d9bd" />
+
+你可以在顶部看到 PORT、STATE、SERVICE、VERSION。版本是 ``vsftpd 3.0.3``
+
+### 6. 根据你的扫描，目标上运行的是什么操作系统类型？
+
+⎯ Unix。在 nmap 扫描输出的底部我们可以看到 ``Service Info: OS: Unix``。
+
+<img width="639" height="149" alt="image" src="https://github.com/user-attachments/assets/55c5ffa9-b3fc-4d2a-82d9-864826a303f5" />
+
+### 7. 我们需要运行什么命令来显示 'ftp' 客户端的帮助菜单？
+
+⎯ ``ftp -?``
+
+### 8. 当你想在没有账户的情况下登录时，FTP 上使用的用户名是什么？
+
+⎯ anonymous（匿名）
+
+> 这个功能被称为匿名 FTP，允许在不需要唯一凭据的情况下公开访问文件
+
+我运行了这个命令：
+
+```
+ftp anonymous@machine_ip
+```
+
+当它要求输入密码时只需按 Enter，你就进去了。（并非所有 FTP 服务器都有这个匿名功能）
+
+<img width="378" height="149" alt="image" src="https://github.com/user-attachments/assets/78d14945-3e6f-4bfd-a1b3-76d20fd9cd09" />
+
+### 9. FTP 消息 'Login successful'（登录成功）我们得到的响应代码是什么？
+
+⎯ ``230``（当我们以 anonymous 身份登录时确实能看到它）
+
+### 10. 我们可以使用几个命令来列出 FTP 服务器上可用的文件和目录。一个是 dir。另一个在 Linux 系统上列出文件的常用方式是什么？
+
+⎯ ``ls``
+
+### 11. 用于下载我们在 FTP 服务器上找到的文件的命令是什么？
+
+⎯ ``get``。如果你在 FTP 服务器中运行 ``ls``，你会看到我们这里有一个 flag：
+
+<img width="647" height="103" alt="image" src="https://github.com/user-attachments/assets/7e9b6a25-61f3-4bae-923b-320ead0dc385" />
+
+但我们不能用 ``cat`` 读取它。所以如果你想看看可以使用哪些命令，输入 ``?`` 并按 Enter。
+
+<img width="1701" height="276" alt="image" src="https://github.com/user-attachments/assets/58f9313b-5b19-45cf-b5ca-dd9a3c03b5de" />
+
+这里是你所有可以使用的命令。``get`` 命令用于下载文件。
+
+### 提交位于 FTP 服务器上的 flag。
+
+⎯ 使用 ``get`` 下载 flag.txt，然后通过 ``exit`` 命令离开 FTP 服务器，并用任何你想要的方式读取 flag。
+
+<img width="647" height="188" alt="image" src="https://github.com/user-attachments/assets/f9ccddc2-ff86-4f77-be90-f4c77475e843" />
+
+## 经验教训
+
+这个实验对于开始学习 FTP 服务器真的很有帮助。
 
 </details>
 
