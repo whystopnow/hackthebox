@@ -199,7 +199,7 @@ I used `help @server` to get a list of commands. And here I found `INFO` command
 
 ### Submit the flag
 
-⎯ In the `keys *` command output you can see "flag" key. Read it by running `run` command. In our case it's: `get flag`.
+⎯ In the `keys *` command output you can see "`flag`" key. Read it by running `run` command. In our case it's: `get flag`.
 
 ## Lessons Learned
 
