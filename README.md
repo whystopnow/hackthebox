@@ -7,3 +7,4 @@ My write-ups and notes for HackTheBox labs.
 Labs:
 - [Fawn](https://github.com/whystopnow/hackthebox/tree/main/fawn) (Very Easy)
 - [Dancing](https://github.com/whystopnow/hackthebox/tree/main/dancing) (Very Easy)
+- [Redeemer](https://github.com/whystopnow/hackthebox/tree/main/redeemer) (Very Easy)
